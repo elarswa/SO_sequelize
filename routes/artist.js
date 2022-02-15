@@ -11,6 +11,13 @@ const schema = joi.object().keys({
   name: joi.string().min(1).max(50).required(),
 });
 
+const artistInclude = [
+  {
+    model: db.album,
+    attributes: ['id', 'name'],
+  },
+];
+
 const getAll = async (req, res, next) => {
   try {
     const { query = '' } = req.query;
@@ -34,7 +41,7 @@ const getOne = async (req, res, next) => {
   try {
     const { id = 0 } = req.params;
     const artist = await db.artist.findByPk(id, {
-      include: [db.album],
+      include: artistInclude,
     });
 
     if (artist) res.json(artist);
