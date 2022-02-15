@@ -1,6 +1,7 @@
 const express = require('express');
 const db = require('../db/db');
 const joi = require('joi');
+const { schemaValidate } = require('./utils/schemaValidate');
 
 const { Op } = db.Sequelize;
 
@@ -61,12 +62,10 @@ const addTrack = async (req, res, next) => {
   try {
     const { id = 0 } = req.params;
     const data = req.body;
-    const valid = addTrackSchema.validate(data, {
-      abortEarly: false,
-    });
-    if (valid.error) {
-      const messages = valid.error.details.map(i => i.message);
-      res.status(422).send(messages.join(', '));
+    const errMessArr = schemaValidate(addTrackSchema, data);
+
+    if (errMessArr.length) {
+      res.status(422).send(errMessArr.join(', '));
       return;
     }
     const playlist = await db.playlist.findByPk(id, {
@@ -83,7 +82,11 @@ const addTrack = async (req, res, next) => {
       res.json(playlistTrack);
       return;
     }
-    res.status(404).send();
+    let errMessage = [];
+    const notFound = ' not found';
+    if (!track) errMessage.push('Track');
+    if (!playlist) errMessage.push('Playlist');
+    res.status(404).send(errMessage.join(', ') + notFound);
   } catch (e) {
     next(e);
   }
@@ -92,12 +95,10 @@ const addTrack = async (req, res, next) => {
 const addPlaylist = async (req, res, next) => {
   try {
     const data = req.body;
-    const valid = playlistchema.validate(data, {
-      abortEarly: false,
-    });
-    if (valid.error) {
-      const messages = valid.error.details.map(i => i.message);
-      res.status(422).send(messages.join(', '));
+    const errMessArr = schemaValidate(playlistchema, data);
+
+    if (errMessArr.length) {
+      res.status(422).send(errMessArr.join(', '));
       return;
     }
     const playlist = await db.playlist.create(data);
