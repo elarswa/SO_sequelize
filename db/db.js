@@ -41,6 +41,7 @@ const seed = async () => {
   await Promise.all([
     db.track.create({ name: 'track1', artistId: 1, albumId: 1 }),
     db.track.create({ name: 'track2', artistId: 1, albumId: 1 }),
+    db.playlist_track.create({ playlistId: 1, trackId: 1 }),
   ]).catch(e => {});
 };
 
