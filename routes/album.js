@@ -58,7 +58,6 @@ const create = async (req, res, next) => {
     const album = await db.album.create(data);
     res.json(album);
   } catch (e) {
-    console.log('🛑  e:', e);
     next(e);
   }
 };

@@ -84,7 +84,6 @@ const addTrack = async (req, res, next) => {
     }
     res.status(404).send();
   } catch (e) {
-    console.log('🛑  e:', e);
     next(e);
   }
 };
