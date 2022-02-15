@@ -9,16 +9,15 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
-      tableame: 'artist',
+      tableName: 'artist',
       underscored: true,
       timestamps: false,
     }
   );
 
   artist.associate = models => {
-    artist.hasMany(models.album, {
-      foreignKey: 'artist_id',
-    });
+    artist.hasMany(models.album);
+    artist.hasMany(models.track);
   };
   return artist;
 };

@@ -18,11 +18,8 @@ module.exports = (sequelize, DataTypes) => {
   album.associate = models => {
     album.belongsTo(models.artist, {
       foreignKey: 'artist_id',
-      // allowNull: false,
     });
-    album.hasMany(models.track, {
-      foreignKey: 'id',
-    });
+    album.hasMany(models.track);
   };
   return album;
 };
