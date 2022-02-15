@@ -74,12 +74,13 @@ const addTrack = async (req, res, next) => {
     });
     const track = await db.track.findByPk(data.track_id);
     if (playlist && track) {
-      const playlistTracks = await playlist.getTracks();
-      playlistTracks.push(track);
-      console.log('🛑  playlistTracks:', playlistTracks);
-      await playlistTracks.save();
-      await playlist.reload();
-      res.json(playlist);
+      const join = {
+        trackId: track.id,
+        playlistId: playlist.id,
+      };
+      const playlistTrack = await db.playlist_track.build(join);
+      await playlistTrack.save();
+      res.json(playlistTrack);
       return;
     }
     res.status(404).send();
