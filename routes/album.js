@@ -34,6 +34,7 @@ const getOne = async (req, res, next) => {
   try {
     const { id = 0 } = req.params;
     const album = await db.album.findByPk(id, {
+      attributes: ['id', 'name'],
       include: [db.artist],
     });
 
