@@ -13,6 +13,24 @@ const schema = joi.object().keys({
   albumId: joi.number().min(1),
 });
 
+const trackInclude = [
+  {
+    model: db.artist,
+    attributes: ['id', 'name'],
+  },
+  {
+    model: db.album,
+    attributes: ['id', 'name'],
+  },
+  {
+    model: db.playlist,
+    attributes: ['id', 'name'],
+    through: {
+      attributes: [],
+    },
+  },
+];
+
 const getAll = async (req, res, next) => {
   try {
     const { query = '' } = req.query;
@@ -25,7 +43,9 @@ const getAll = async (req, res, next) => {
           },
         },
       };
-    const tracks = await db.track.findAll(filter);
+    const tracks = await db.track.findAll(filter, {
+      include: trackInclude,
+    });
     res.json(tracks);
   } catch (e) {
     next(e);
@@ -36,7 +56,8 @@ const getOne = async (req, res, next) => {
   try {
     const { id = 0 } = req.params;
     const track = await db.track.findByPk(id, {
-      include: [db.album, db.playlist, db.artist],
+      attributes: ['id', 'name'],
+      include: trackInclude,
     });
 
     if (track) res.json(track);
