@@ -11,13 +11,12 @@ module.exports = (sequelize, DataTypes) => {
     {
       tableName: 'album',
       timestamps: false,
-      underscored: true,
     }
   );
 
   album.associate = models => {
     album.belongsTo(models.artist, {
-      foreignKey: 'artist_id',
+      foreignKey: 'artistId',
     });
     album.hasMany(models.track);
   };

@@ -1,6 +1,7 @@
 const express = require('express');
 const db = require('../db/db');
 const joi = require('joi');
+const { schemaValidate } = require('./utils/schemaValidate');
 
 const { Op } = db.Sequelize;
 
@@ -46,12 +47,10 @@ const getOne = async (req, res, next) => {
 const create = async (req, res, next) => {
   try {
     const data = req.body;
-    const valid = schema.validate(data, {
-      abortEarly: false,
-    });
-    if (valid.error) {
-      const messages = valid.error.details.map(i => i.message);
-      res.status(422).send(messages.join(', '));
+    const errMessArr = schemaValidate(schema, data);
+
+    if (errMessArr.length) {
+      res.status(422).send(errMessArr.join(', '));
       return;
     }
     const artist = await db.artist.create(data);

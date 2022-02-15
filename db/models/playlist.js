@@ -11,7 +11,6 @@ module.exports = (sequelize, DataTypes) => {
     {
       tableName: 'playlist',
       timestamps: false,
-      underscored: true,
     }
   );
 

@@ -8,14 +8,14 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
         allowNull: false,
       },
-      playlist_id: {
+      playlistId: {
         type: DataTypes.INTEGER,
         references: {
           model: 'playlist',
           key: 'id',
         },
       },
-      track_id: {
+      trackId: {
         type: DataTypes.INTEGER,
         references: {
           model: 'track',
@@ -26,7 +26,6 @@ module.exports = (sequelize, DataTypes) => {
     {
       tableName: 'playlist_track',
       timestamps: false,
-      underscored: true,
     }
   );
 

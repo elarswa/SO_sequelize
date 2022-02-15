@@ -8,7 +8,7 @@ const { Op } = db.Sequelize;
 const router = express.Router();
 
 const addTrackSchema = joi.object().keys({
-  track_id: joi.number().min(1).required(),
+  trackId: joi.number().min(1).required(),
 });
 
 const playlistchema = joi.object().keys({
@@ -18,7 +18,7 @@ const playlistchema = joi.object().keys({
 const playlistInclude = [
   {
     model: db.track,
-    attributes: ['id', 'name', 'artist_id', 'album_id'],
+    attributes: ['id', 'name', 'artistId', 'albumId'],
     through: {
       attributes: [],
     },
@@ -71,7 +71,7 @@ const addTrack = async (req, res, next) => {
     const playlist = await db.playlist.findByPk(id, {
       include: playlistInclude,
     });
-    const track = await db.track.findByPk(data.track_id);
+    const track = await db.track.findByPk(data.trackId);
     if (playlist && track) {
       const join = {
         trackId: track.id,

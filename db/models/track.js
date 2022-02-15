@@ -11,17 +11,16 @@ module.exports = (sequelize, DataTypes) => {
     {
       tableName: 'track',
       timestamps: false,
-      underscored: true,
     }
   );
 
   track.associate = models => {
     track.belongsTo(models.artist, {
-      foreignKey: 'artist_id',
+      foreignKey: 'artistId',
       allowNull: false,
     });
     track.belongsTo(models.album, {
-      foreignKey: 'album_id',
+      foreignKey: 'albumId',
       allowNull: true,
     });
     track.belongsToMany(models.playlist, {

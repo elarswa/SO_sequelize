@@ -35,12 +35,12 @@ const seed = async () => {
   await Promise.all([
     db.artist.create({ name: 'artist1' }),
     db.artist.create({ name: 'artist2' }),
-    db.album.create({ name: 'album1', artist_id: 1 }),
+    db.album.create({ name: 'album1', artistId: 1 }),
     db.playlist.create({ name: 'playlist1' }),
   ]).catch(e => {});
   await Promise.all([
-    db.track.create({ name: 'track1', artist_id: 1, album_id: 1 }),
-    db.track.create({ name: 'track2', artist_id: 1, album_id: 1 }),
+    db.track.create({ name: 'track1', artistId: 1, albumId: 1 }),
+    db.track.create({ name: 'track2', artistId: 1, albumId: 1 }),
   ]).catch(e => {});
 };
 
